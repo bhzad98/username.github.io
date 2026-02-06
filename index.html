@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>آریا فایل | فروشگاه فایل دیجیتال</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" defer></script>
+
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --accent: #ec4899;
+      --bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.58);
+      --blur: blur(12px);
+      --text: #e2e8f0;
+      --gray: #94a3b8;
+      --shadow: 0 8px 32px rgba(0,0,0,0.25);
+      --glow: 0 0 20px rgba(124,58,237,0.3);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Vazirmatn', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg), #1e293b);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.25rem; }
+
+    /* Header – بهینه‌شده با backdrop-filter + کمتر لایه */
+    header {
+      background: rgba(15,23,42,0.65);
+      backdrop-filter: var(--blur);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(124,58,237,0.18);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      padding: 1.125rem 0;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      backdrop-filter: blur(8px);
+    }
+
+    .search-bar input::placeholder { color: var(--gray); }
+
+    .cart-btn {
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: var(--glow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cart-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(124,58,237,0.5); }
+
+    /* Categories – ساده‌تر و سریع‌تر */
+    .categories {
+      margin: 1.5rem 0;
+      padding: 1.5rem 0;
+      background: rgba(15,23,42,0.4);
+      backdrop-filter: var(--blur);
+      border-radius: 1rem;
+    }
+
+    .cat-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.25rem;
+    }
+
+    .cat-item {
+      background: var(--card-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      min-width: 7rem;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .cat-item:hover {
+      transform: scale(1.06);
+      border-color: var(--primary);
+    }
+
+    .cat-item i { font-size: 2.2rem; color: var(--primary); margin-bottom: 0.5rem; }
+
+    /* Products – بهینه برای GPU + tilt */
+    .products { padding: 4rem 0; }
+
+    h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      background: linear-gradient(90deg, #a78bfa, #f472b6, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.875rem;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid rgba(124,58,237,0.22);
+      border-radius: 1.25rem;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transform-style: preserve-3d;
+      will-change: transform;           /* ← مهم برای عملکرد انیمیشن */
+      transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 20px 50px rgba(124,58,237,0.4);
+      border-color: var(--accent);
+    }
+
+    .product-thumb {
+      height: 13.75rem;
+      background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(236,72,153,0.12));
+      display: grid;
+      place-items: center;
+      font-size: 5.5rem;
+      color: rgba(124,58,237,0.55);
+      transition: transform 0.6s ease;
+    }
+
+    .product-card:hover .product-thumb { transform: scale(1.06); }
+
+    .product-info { padding: 1.5rem; }
+
+    .product-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: white;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #f472b6, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .old-price {
+      color: var(--gray);
+      text-decoration: line-through;
+      font-size: 1rem;
+      margin-right: 0.75rem;
+    }
+
+    .buy-btn {
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 0.875rem;
+      border-radius: 0.75rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      box-shadow: var(--glow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .buy-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(124,58,237,0.55);
+    }
+
+    footer {
+      background: rgba(15,23,42,0.75);
+      backdrop-filter: var(--blur);
+      color: var(--gray);
+      text-align: center;
+      padding: 2.5rem 0;
+      margin-top: 5rem;
+      border-top: 1px solid rgba(124,58,237,0.18);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">آریا فایل</div>
+      <div class="search-bar">
+        <input type="text" placeholder="جستجوی قالب، افزونه، pdf، موسیقی..."/>
+      </div>
+      <a href="#" class="cart-btn"><i class="fa fa-shopping-cart"></i> سبد (۰)</a>
+    </nav>
+  </div>
+</header>
+
+<div class="categories">
+  <div class="container">
+    <div class="cat-list">
+      <div class="cat-item"><i class="fas fa-paint-brush"></i><span>گرافیک</span></div>
+      <div class="cat-item"><i class="fas fa-code"></i><span>قالب و کد</span></div>
+      <div class="cat-item"><i class="fas fa-plug"></i><span>افزونه</span></div>
+      <div class="cat-item"><i class="fas fa-file-pdf"></i><span>کتاب و PDF</span></div>
+      <div class="cat-item"><i class="fas fa-music"></i><span>موسیقی</span></div>
+      <div class="cat-item"><i class="fas fa-camera"></i><span>عکس استوک</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="products">
+  <div class="container">
+    <h2>جدیدترین فایل‌های دیجیتال</h2>
+    <div class="grid">
+      <div class="product-card" data-tilt>
+        <div class="product-thumb"><i class="fas fa-file-powerpoint"></i></div>
+        <div class="product-info">
+          <h3 class="product-title">پکیج ۱۵۰ قالب پاورپوینت حرفه‌ای ۲۰۲۶</h3>
+          <div>
+            <span class="old-price">۴۹۰,۰۰۰</span>
+            <span class="price">۲۴۹,۰۰۰ تومان</span>
+          </div>
+          <button class="buy-btn">افزودن به سبد ←</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-tilt>
+        <div class="product-thumb"><i class="fab fa-wordpress-simple"></i></div>
+        <div class="product-info">
+          <h3 class="product-title">قالب وردپرس فروشگاهی نئون + RTL کامل</h3>
+          <div><span class="price">۶۹۹,۰۰۰ تومان</span></div>
+          <button class="buy-btn">افزودن به سبد ←</button>
+        </div>
+      </div>
+
+      <!-- کارت‌های بیشتر رو همین‌طور اضافه کن -->
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© ۱۴۰۴–۱۴۰۵ آریا فایل – مرجع فایل‌های دیجیتال</p>
+    <p>پشتیبانی: @arya_file_support</p>
+  </div>
+</footer>
+
+<script>
+  // Tilt فقط روی کارت‌ها اعمال می‌شه – defer شده بود تا DOM آماده بشه
+  VanillaTilt.init(document.querySelectorAll(".product-card"), {
+    max: 12,
+    speed: 500,
+    glare: true,
+    "max-glare": 0.4,
+    perspective: 900,
+    scale: 1.04,
+    gyroscope: true
+  });
+</script>
+
+</body>
+</html>
